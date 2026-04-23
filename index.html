@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theWAI — Learn the AI Edge. Get Ahead. Stay Ahead.</title>
+<meta name="description" content="The only AI business course built by someone who actually uses this stuff. 6 modules. 30 lessons. Real tools, real workflows, real income. Built by Marken, 16, Estonia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────
+   ROOT & RESET
+───────────────────────────────────────────── */
+:root {
+  --ink:    #080808;
+  --ink2:   #0f0f0f;
+  --ink3:   #161616;
+  --ink4:   #1e1e1e;
+  --ink5:   #2a2a2a;
+  --gold:   #C8A45A;
+  --gold2:  #E2C07A;
+  --gold3:  #9A7A3A;
+  --cream:  #F0EBE0;
+  --cream2: #D8D1C2;
+  --stone:  #7A7368;
+  --fog:    rgba(200,164,90,0.12);
+  --fog2:   rgba(200,164,90,0.06);
+  --r: 0px; /* no border-radius — sharp edges everywhere */
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ─────────────────────────────────────────────
+   GRAIN OVERLAY
+───────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────
+   CUSTOM CURSOR
+───────────────────────────────────────────── */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.15s ease, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(200,164,90,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring.expand { width: 56px; height: 56px; }
+
+/* ─────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 56px;
+  mix-blend-mode: normal;
+  transition: background 0.4s, padding 0.4s;
+}
+
+nav.scrolled {
+  background: rgba(8,8,8,0.96);
+  backdrop-filter: blur(16px);
+  padding: 16px 56px;
+  border-bottom: 1px solid rgba(200,164,90,0.12);
+}
+
+.nav-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-logo .the { color: var(--cream2); font-weight: 300; }
+.nav-logo .wai { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--ink) !important;
+  padding: 10px 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold2) !important; }
+
+/* ─────────────────────────────────────────────
+   SECTION HELPERS
+───────────────────────────────────────────── */
+section { position: relative; overflow: hidden; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+.eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.eyebrow::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideRight {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes pulse-gold {
+  0%,100% { box-shadow: 0 0 0 0 rgba(200,164,90,0); }
+  50%      { box-shadow: 0 0 0 16px rgba(200,164,90,0.08); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.34s; }
+.reveal-delay-4 { transition-delay: 0.46s; }
+
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 0;
+  background: var(--ink);
+  position: relative;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg-line {
+  position: absolute;
+  background: var(--gold);
+  opacity: 0.06;
+}
+.hero-bg-line:nth-child(1) { width: 1px; height: 100%; left: 25%; top: 0; }
+.hero-bg-line:nth-child(2) { width: 1px; height: 100%; right: 25%; top: 0; }
+.hero-bg-line:nth-child(3) { width: 100%; height: 1px; top: 33%; left: 0; }
+.hero-bg-line:nth-child(4) { width: 100%; height: 1px; top: 66%; left: 0; }
+
+.hero-glow {
+  position: absolute;
+  width: 900px; height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,164,90,0.07) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 160px 56px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(200,164,90,0.3);
+  background: var(--fog);
+  padding: 8px 18px;
+  margin-bottom: 56px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  animation: fadeIn 0.6s ease both;
+}
+.badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse-gold 2s ease infinite;
+}
+
+.hero-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 9vw, 140px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -3px;
+  margin-bottom: 40px;
+  max-width: 900px;
+  animation: fadeUp 0.9s 0.15s ease both;
+}
+
+.hero-headline .line-gold {
+  color: var(--gold);
+  font-style: italic;
+}
+.hero-headline .line-outline {
+  -webkit-text-stroke: 1.5px var(--cream2);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: var(--stone);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 540px;
+  margin-bottom: 56px;
+  animation: fadeUp 0.9s 0.3s ease both;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.9s 0.45s ease both;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 20px 48px;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.4s ease;
+}
+.btn-primary:hover::before { transform: translateX(100%) skewX(-15deg); }
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+
+.btn-ghost {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.2s, gap 0.2s;
+}
+.btn-ghost:hover { color: var(--cream); gap: 16px; }
+
+.hero-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  color: var(--stone);
+  letter-spacing: 2px;
+  margin-top: 20px;
+  animation: fadeUp 0.9s 0.6s ease both;
+}
+.hero-price strong { color: var(--gold); font-size: 15px; }
+.hero-price s { opacity: 0.5; }
+
+/* Hero stats strip */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(200,164,90,0.12);
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 1s 0.8s ease both;
+}
+.hero-stat {
+  padding: 28px 56px;
+  border-right: 1px solid rgba(200,164,90,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+/* ─────────────────────────────────────────────
+   TICKER / MARQUEE
+───────────────────────────────────────────── */
+.ticker {
+  overflow: hidden;
+  background: var(--gold);
+  padding: 14px 0;
+  white-space: nowrap;
+}
+.ticker-inner {
+  display: inline-flex;
+  animation: ticker 24s linear infinite;
+}
+.ticker-item {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.ticker-item::after {
+  content: '◆';
+  font-size: 8px;
+}
+
+/* ─────────────────────────────────────────────
+   PROBLEM SECTION
+───────────────────────────────────────────── */
+#problem {
+  padding: 140px 0;
+  background: var(--ink2);
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
+  border: 1px solid rgba(200,164,90,0.1);
+}
+
+.problem-left {
+  padding: 80px;
+  border-right: 1px solid rgba(200,164,90,0.1);
+}
+
+.problem-statement {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 32px;
+}
+.problem-statement em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.problem-body {
+  font-size: 16px;
+  color: var(--stone);
+  line-height: 1.85;
+  max-width: 420px;
+}
+
+.problem-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.problem-pain {
+  padding: 40px;
+  border-bottom: 1px solid rgba(200,164,90,0.08);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  transition: background 0.3s;
+}
+.problem-pain:last-child { border-bottom: none; }
+.problem-pain:hover { background: var(--fog2); }
+
+.pain-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold3);
+  margin-top: 4px;
+  min-width: 28px;
+}
+.pain-text h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+.pain-text p {
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────
+   ABOUT / FOUNDER
+───────────────────────────────────────────── */
+#founder {
+  padding: 140px 0;
+  background: var(--ink);
+}
+
+.founder-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 120px;
+  align-items: center;
+}
+
+.founder-visual {
+  position: relative;
+}
+
+.founder-card {
+  background: var(--ink3);
+  border: 1px solid rgba(200,164,90,0.15);
+  padding: 60px;
+  position: relative;
+}
+.founder-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 100%; height: 100%;
+  border: 1px solid rgba(200,164,90,0.07);
+  z-index: -1;
+}
+.founder-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold3), transparent);
+}
+
+.founder-age {
+  font-family: 'Playfair Display', serif;
+  font-size: 96px;
+  font-weight: 900;
+  color: var(--fog);
+  line-height: 1;
+  margin-bottom: -20px;
+  color: rgba(200,164,90,0.08);
+  font-style: italic;
+}
+
+.founder-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.founder-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+.founder-desc {
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.85;
+}
+
+.founder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(200,164,90,0.1);
+  margin-top: 40px;
+}
+.founder-metric {
+  background: var(--ink3);
+  padding: 20px 24px;
+}
+.founder-metric-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.founder-metric-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-top: 2px;
+}
+
+.founder-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+.founder-text h2 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.founder-text p {
+  font-size: 16px;
+  color: var(--stone);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.founder-quote {
+  border-left: 3px solid var(--gold);
+  padding: 20px 28px;
+  margin: 32px 0;
+  background: var(--fog2);
+}
+.founder-quote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--cream2);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────
+   WHAT'S INSIDE / MODULES
+───────────────────────────────────────────── */
+#modules {
+  padding: 140px 0;
+  background: var(--ink2);
+}
+
+.modules-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-bottom: 80px;
+  gap: 40px;
+}
+
+.modules-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 5.5vw, 80px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+}
+.modules-title em { font-style: italic; color: var(--gold); }
+
+.modules-count {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(200,164,90,0.1);
+  line-height: 1;
+  text-align: right;
+}
+
+.module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.module-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 36px 0;
+  border-bottom: 1px solid rgba(200,164,90,0.08);
+  cursor: default;
+  transition: padding 0.3s;
+  position: relative;
+}
+.module-row::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0; top: 0;
+  background: var(--fog2);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.module-row:hover { padding-left: 24px; }
+.module-row:hover::before { opacity: 1; }
+
+.module-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold3);
+  position: relative;
+  z-index: 1;
+}
+
+.module-info { position: relative; z-index: 1; }
+.module-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 700;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+.module-row:hover .module-info h3 { color: var(--gold); }
+.module-info p {
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.65;
+  max-width: 560px;
+}
+
+.module-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  border: 1px solid rgba(200,164,90,0.15);
+  padding: 6px 14px;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────
+   WHAT YOU GET (INCLUDES)
+───────────────────────────────────────────── */
+#includes {
+  padding: 140px 0;
+  background: var(--ink);
+  position: relative;
+}
+
+.includes-bg-text {
+  position: absolute;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 280px;
+  font-weight: 900;
+  color: rgba(200,164,90,0.03);
+  top: 50%; left: -20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  letter-spacing: -10px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.includes-header {
+  margin-bottom: 80px;
+}
+
+.includes-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.includes-title em { font-style: italic; color: var(--gold); }
+
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(200,164,90,0.1);
+}
+
+.include-card {
+  background: var(--ink);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.include-card:hover { background: var(--ink3); }
+
+.include-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.include-card:hover::after { transform: scaleX(1); }
+
+.include-icon {
+  font-size: 32px;
+  margin-bottom: 24px;
+  display: block;
+  filter: grayscale(0.3);
+}
+
+.include-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.include-card p {
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.75;
+}
+
+.include-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold3);
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────
+   STATS / PROOF
+───────────────────────────────────────────── */
+#proof {
+  padding: 140px 0;
+  background: var(--ink3);
+}
+
+.proof-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.proof-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(200,164,90,0.1);
+}
+.proof-stat {
+  background: var(--ink3);
+  padding: 40px 36px;
+}
+.proof-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.proof-stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  line-height: 1.5;
+}
+.proof-stat-source {
+  font-size: 10px;
+  color: rgba(200,164,90,0.4);
+  margin-top: 6px;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 1px;
+}
+
+.proof-copy h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 3.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+.proof-copy h2 em { color: var(--gold); font-style: italic; }
+
+.proof-copy p {
+  font-size: 16px;
+  color: var(--stone);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.proof-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 36px;
+}
+.proof-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--fog2);
+  border: 1px solid rgba(200,164,90,0.08);
+}
+.proof-item-icon {
+  color: var(--gold);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.proof-item p {
+  font-size: 14px;
+  color: var(--cream2);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────
+   TESTIMONIALS
+───────────────────────────────────────────── */
+#testimonials {
+  padding: 140px 0;
+  background: var(--ink2);
+}
+
+.testi-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.testi-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.testi-title em { color: var(--gold); font-style: italic; }
+
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(200,164,90,0.1);
+}
+
+.testi-card {
+  background: var(--ink2);
+  padding: 52px 44px;
+  position: relative;
+  transition: background 0.3s;
+}
+.testi-card:hover { background: var(--ink3); }
+
+.testi-stars {
+  color: var(--gold);
+  font-size: 13px;
+  margin-bottom: 24px;
+  letter-spacing: 3px;
+}
+
+.testi-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--cream2);
+  margin-bottom: 36px;
+}
+.testi-quote::before {
+  content: '\201C';
+  font-size: 48px;
+  color: var(--gold);
+  display: block;
+  line-height: 0.8;
+  margin-bottom: 16px;
+  font-style: normal;
+}
+
+.testi-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid rgba(200,164,90,0.1);
+  padding-top: 28px;
+}
+.testi-avatar {
+  width: 44px; height: 44px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.testi-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.testi-detail {
+  font-size: 12px;
+  color: var(--stone);
+  margin-top: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   FAQ
+───────────────────────────────────────────── */
+#faq {
+  padding: 140px 0;
+  background: var(--ink);
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 100px;
+  align-items: start;
+}
+
+.faq-sticky {
+  position: sticky;
+  top: 120px;
+}
+.faq-sticky h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 4vw, 60px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.faq-sticky h2 em { color: var(--gold); font-style: italic; }
+.faq-sticky p {
+  font-size: 16px;
+  color: var(--stone);
+  line-height: 1.8;
+}
+
+.faq-list { display: flex; flex-direction: column; }
+
+.faq-item {
+  border-bottom: 1px solid rgba(200,164,90,0.1);
+}
+
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--gold); }
+
+.faq-q-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.faq-icon {
+  color: var(--gold);
+  font-size: 22px;
+  transition: transform 0.35s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s;
+  font-size: 15px;
+  color: var(--stone);
+  line-height: 1.85;
+}
+
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding-bottom: 28px;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* ─────────────────────────────────────────────
+   PRICING
+───────────────────────────────────────────── */
+#pricing {
+  padding: 140px 0;
+  background: var(--ink2);
+  position: relative;
+}
+
+.pricing-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricing-eyebrow { justify-content: center; }
+
+.pricing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.pricing-title em { font-style: italic; color: var(--gold); }
+
+.pricing-sub {
+  font-size: 17px;
+  color: var(--stone);
+  margin-bottom: 72px;
+  line-height: 1.75;
+}
+
+.price-box {
+  background: var(--ink3);
+  border: 1px solid rgba(200,164,90,0.3);
+  padding: 72px 64px;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.price-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.price-box-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  margin-bottom: 36px;
+}
+
+.price-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.price-currency {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  padding-top: 16px;
+}
+.price-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 108px;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+  letter-spacing: -4px;
+}
+.price-was {
+  font-size: 14px;
+  color: var(--stone);
+  margin-bottom: 48px;
+}
+.price-was s { color: rgba(255,255,255,0.25); }
+
+.price-features {
+  list-style: none;
+  margin-bottom: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.price-feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 15px;
+  color: var(--cream2);
+}
+.price-feature:last-child { border-bottom: none; }
+
+.price-check {
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold);
+  background: var(--fog);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.btn-primary-large {
+  width: 100%;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 24px 48px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary-large::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.4s ease;
+}
+.btn-primary-large:hover::before { transform: translateX(100%) skewX(-15deg); }
+.btn-primary-large:hover { background: var(--gold2); }
+
+.price-guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--stone);
+  margin-top: 24px;
+}
+
+/* ─────────────────────────────────────────────
+   FINAL CTA
+───────────────────────────────────────────── */
+#final {
+  padding: 200px 0;
+  background: var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-bg {
+  position: absolute;
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,164,90,0.07) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: float 10s ease-in-out infinite;
+}
+
+.final-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold3);
+  margin-bottom: 36px;
+  display: block;
+}
+
+.final-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(56px, 9vw, 128px);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -4px;
+  margin-bottom: 40px;
+}
+.final-title em { color: var(--gold); font-style: italic; }
+.final-title .outline {
+  -webkit-text-stroke: 1.5px var(--cream2);
+  color: transparent;
+}
+
+.final-sub {
+  font-size: 18px;
+  color: var(--stone);
+  max-width: 520px;
+  margin: 0 auto 60px;
+  line-height: 1.8;
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+footer {
+  border-top: 1px solid rgba(200,164,90,0.1);
+  padding: 48px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: var(--ink);
+}
+
+.footer-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--gold);
+}
+.footer-logo span { color: var(--stone); font-weight: 300; }
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--stone);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 1px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+}
+.footer-links a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  nav { padding: 20px 32px; }
+  nav.scrolled { padding: 14px 32px; }
+  .container { padding: 0 32px; }
+  .hero-inner { padding: 140px 32px 60px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-stat { padding: 24px 32px; }
+  .founder-layout { grid-template-columns: 1fr; gap: 60px; }
+  .proof-layout { grid-template-columns: 1fr; gap: 60px; }
+  .faq-layout { grid-template-columns: 1fr; gap: 56px; }
+  .faq-sticky { position: static; }
+  .includes-grid { grid-template-columns: repeat(2, 1fr); }
+  .testi-grid { grid-template-columns: 1fr 1fr; }
+  footer { padding: 40px 32px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  nav.scrolled { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .container { padding: 0 20px; }
+  .hero-inner { padding: 120px 20px 48px; }
+  .hero-headline { letter-spacing: -1px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-stat { padding: 20px 20px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .problem-left { padding: 48px 32px; border-right: none; border-bottom: 1px solid rgba(200,164,90,0.1); }
+  .founder-card { padding: 40px 32px; }
+  .modules-header { grid-template-columns: 1fr; }
+  .includes-grid { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .module-row { grid-template-columns: 48px 1fr; }
+  .module-tag { display: none; }
+  .price-box { padding: 48px 32px; }
+  .price-amount { font-size: 80px; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+  .proof-stats { grid-template-columns: 1fr 1fr; }
+  .cursor, .cursor-ring { display: none; }
+}
+
+/* ─────────────────────────────────────────────
+   MOBILE NAV TOGGLE
+───────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+.hamburger span {
+  width: 24px; height: 1.5px;
+  background: var(--cream);
+  display: block;
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ─────────────────── NAV ─────────────────── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <span class="the">the</span><span class="wai">WAI</span>
+  </a>
+  <div class="nav-links">
+    <a href="#modules">Course</a>
+    <a href="#proof">Why Now</a>
+    <a href="#founder">About</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pricing" class="nav-cta">Get Access — €29</a>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─────────────────── HERO ─────────────────── -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-line"></div>
+    <div class="hero-bg-line"></div>
+    <div class="hero-bg-line"></div>
+    <div class="hero-bg-line"></div>
+    <div class="hero-glow"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      2026 Edition — Updated &amp; Verified
+    </div>
+
+    <h1 class="hero-headline">
+      Stop Using AI<br>
+      <span class="line-gold">Like Everyone</span><br>
+      <span class="line-outline">Else.</span>
+    </h1>
+
+    <p class="hero-sub">
+      The only AI business course built by someone who actually uses this stuff every day. 6 modules. 30+ lessons. Real tools, real workflows, real income — no fluff, no theory, no waiting.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Get Instant Access — €29</a>
+      <a href="#modules" class="btn-ghost">See what's inside &nbsp;→</a>
+    </div>
+
+    <p class="hero-price">
+      Launch price: <s>€49</s> &nbsp;→&nbsp; <strong>€29</strong> &nbsp;·&nbsp; One payment &nbsp;·&nbsp; Lifetime access
+    </p>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">30+</div>
+      <div class="hero-stat-label">Video Lessons</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">Modules</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50</div>
+      <div class="hero-stat-label">Ready-to-Use Prompts</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">€29</div>
+      <div class="hero-stat-label">One-Time Price</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── TICKER ─────────────────── -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="ticker-item">AI Tools</div>
+    <div class="ticker-item">Prompt Engineering</div>
+    <div class="ticker-item">Automation Workflows</div>
+    <div class="ticker-item">No-Code Building</div>
+    <div class="ticker-item">AI Freelancing</div>
+    <div class="ticker-item">Content Systems</div>
+    <div class="ticker-item">Market Research</div>
+    <div class="ticker-item">Sales with AI</div>
+    <div class="ticker-item">Real Income</div>
+    <div class="ticker-item">2026 Edition</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item">AI Tools</div>
+    <div class="ticker-item">Prompt Engineering</div>
+    <div class="ticker-item">Automation Workflows</div>
+    <div class="ticker-item">No-Code Building</div>
+    <div class="ticker-item">AI Freelancing</div>
+    <div class="ticker-item">Content Systems</div>
+    <div class="ticker-item">Market Research</div>
+    <div class="ticker-item">Sales with AI</div>
+    <div class="ticker-item">Real Income</div>
+    <div class="ticker-item">2026 Edition</div>
+  </div>
+</div>
+
+<!-- ─────────────────── PROBLEM ─────────────────── -->
+<section id="problem">
+  <div class="container">
+    <div class="eyebrow reveal">The Problem</div>
+    <div class="problem-grid reveal reveal-delay-1">
+      <div class="problem-left">
+        <p class="problem-statement">
+          Everyone's using AI.<br>
+          <em>Almost nobody is doing it right.</em>
+        </p>
+        <p class="problem-body">
+          80% of people treat AI like a smarter Google. They type a question, read the answer, close the tab, and move on. Then they wonder why they're not getting ahead. The tools aren't the problem. How you use them is.
+        </p>
+      </div>
+      <div class="problem-right">
+        <div class="problem-pain">
+          <div class="pain-num">01</div>
+          <div class="pain-text">
+            <h4>You treat it like Google</h4>
+            <p>You're using a nuclear reactor to make toast. One prompt, one answer, zero leverage. The real power is in iteration, context, and systems — none of which you're using.</p>
+          </div>
+        </div>
+        <div class="problem-pain">
+          <div class="pain-num">02</div>
+          <div class="pain-text">
+            <h4>You accept the first output</h4>
+            <p>Top users run 3–5 rounds of refinement. They ask AI to critique its own work, then rewrite it. You stopped at draft one and called it done.</p>
+          </div>
+        </div>
+        <div class="problem-pain">
+          <div class="pain-num">03</div>
+          <div class="pain-text">
+            <h4>You use tools in isolation</h4>
+            <p>Real leverage comes from combining tools into workflows. A system that runs without you is worth infinitely more than any single AI response.</p>
+          </div>
+        </div>
+        <div class="problem-pain">
+          <div class="pain-num">04</div>
+          <div class="pain-text">
+            <h4>You're not making money from it</h4>
+            <p>AI knowledge is worthless unless you can convert it into income. Most courses don't teach this part. theWAI is built around it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FOUNDER ─────────────────── -->
+<section id="founder">
+  <div class="container">
+    <div class="founder-layout">
+      <div class="founder-visual reveal">
+        <div class="founder-card">
+          <div class="founder-age">16</div>
+          <div class="founder-name">Marken</div>
+          <div class="founder-title">Founder, SPEKD · Keila, Estonia</div>
+          <p class="founder-desc">
+            I've been building AI-powered products since I was 15. Two marketplace apps. A hackathon placement. A full AI course. All of it self-taught, self-funded, and built from a bedroom in a small Estonian town.
+          </p>
+          <div class="founder-grid">
+            <div class="founder-metric">
+              <div class="founder-metric-num">2+</div>
+              <div class="founder-metric-label">Apps Launched</div>
+            </div>
+            <div class="founder-metric">
+              <div class="founder-metric-num">Top 5</div>
+              <div class="founder-metric-label">JA Estonia Hackathon</div>
+            </div>
+            <div class="founder-metric">
+              <div class="founder-metric-num">€0</div>
+              <div class="founder-metric-label">Outside Capital</div>
+            </div>
+            <div class="founder-metric">
+              <div class="founder-metric-num">16</div>
+              <div class="founder-metric-label">Years Old</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-text reveal reveal-delay-2">
+        <div class="eyebrow">Why Listen to Me</div>
+        <h2>I'm not a guru.<br><em>I'm just earlier.</em></h2>
+
+        <p>
+          Most AI courses are taught by people who read about AI. I built two apps with it, competed in startup competitions with it, and generate income from it — all before I finished high school.
+        </p>
+
+        <div class="founder-quote">
+          <p>"I built this course because I kept running into the same problem: every AI course I could find was either made for developers, or so basic it was useless. Nobody was making something for young people who want to actually build things and make money."</p>
+        </div>
+
+        <p>
+          Everything in theWAI comes from doing, not reading about doing. If something doesn't work in practice, it's not in the course.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── MODULES ─────────────────── -->
+<section id="modules">
+  <div class="container">
+    <div class="modules-header reveal">
+      <div>
+        <div class="eyebrow">The Curriculum</div>
+        <h2 class="modules-title">6 Modules.<br><em>Zero fluff.</em></h2>
+      </div>
+      <div class="modules-count">06</div>
+    </div>
+
+    <div class="module-list">
+      <div class="module-row reveal">
+        <div class="module-num">01</div>
+        <div class="module-info">
+          <h3>Why AI Is the Biggest Opportunity of Your Lifetime</h3>
+          <p>The facts behind the shift — not hype. Why this moment is fundamentally different, who wins, who loses, and how the advantage compounds for people who move first.</p>
+        </div>
+        <div class="module-tag">3 Lessons</div>
+      </div>
+      <div class="module-row reveal reveal-delay-1">
+        <div class="module-num">02</div>
+        <div class="module-info">
+          <h3>The AI Toolkit — What Tools Actually Matter in 2026</h3>
+          <p>Not 50 tools. The exact stack I use: ChatGPT, Claude, Gemini, Perplexity, Canva, Zapier, Base44. What each one is genuinely good for — and the CRAFT prompting framework.</p>
+        </div>
+        <div class="module-tag">4 Lessons</div>
+      </div>
+      <div class="module-row reveal reveal-delay-2">
+        <div class="module-num">03</div>
+        <div class="module-info">
+          <h3>AI for Business — Real Workflows, Real Results</h3>
+          <p>Market research in 2 hours. A content machine that turns one idea into a week of posts. AI sales outreach with 5–10× higher response rates. Customer service that runs without you.</p>
+        </div>
+        <div class="module-tag">5 Lessons</div>
+      </div>
+      <div class="module-row reveal">
+        <div class="module-num">04</div>
+        <div class="module-info">
+          <h3>AI for Money — Turning Capability Into Income</h3>
+          <p>Five income streams with realistic timelines and earnings data. Value-based pricing that doesn't punish you for being fast. A 7-day action plan to your first client or sale.</p>
+        </div>
+        <div class="module-tag">3 Lessons</div>
+      </div>
+      <div class="module-row reveal reveal-delay-1">
+        <div class="module-num">05</div>
+        <div class="module-info">
+          <h3>Advanced AI Strategies — Automate, Validate, Brand</h3>
+          <p>Automation workflows that run while you sleep. The 4-question validation model that kills bad ideas before you build them. A personal brand system that compounds every month.</p>
+        </div>
+        <div class="module-tag">3 Lessons</div>
+      </div>
+      <div class="module-row reveal reveal-delay-2">
+        <div class="module-num">06</div>
+        <div class="module-info">
+          <h3>Your AI Business Plan — One Page, 90 Days</h3>
+          <p>A one-page business plan you build with AI in 20 minutes. A 90-day roadmap broken into three phases. The mindset shifts that separate builders from spectators.</p>
+        </div>
+        <div class="module-tag">3 Lessons</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── INCLUDES ─────────────────── -->
+<section id="includes">
+  <div class="includes-bg-text" aria-hidden="true">EVERYTHING</div>
+  <div class="container">
+    <div class="includes-header reveal">
+      <div class="eyebrow">What You Get</div>
+      <h2 class="includes-title">Everything you need.<br><em>Nothing you don't.</em></h2>
+    </div>
+    <div class="includes-grid reveal reveal-delay-1">
+      <div class="include-card">
+        <span class="include-icon">🎬</span>
+        <h3>30+ Video Lessons</h3>
+        <p>Screen-recorded walkthroughs, live tool demos, and talk-over slides for every concept — across 6 complete modules.</p>
+        <div class="include-value">Value: €200+</div>
+      </div>
+      <div class="include-card">
+        <span class="include-icon">📊</span>
+        <h3>Visual Lesson Boards</h3>
+        <p>Interactive Miro-style boards for every lesson — key frameworks, keyword maps, and diagrams to follow along with.</p>
+        <div class="include-value">Exclusive to theWAI</div>
+      </div>
+      <div class="include-card">
+        <span class="include-icon">⚡</span>
+        <h3>50 Ready-to-Use Prompts</h3>
+        <p>Copy-paste prompts for research, marketing, sales, content, product building, validation, and automation. All tested.</p>
+        <div class="include-value">Value: €79</div>
+      </div>
+      <div class="include-card">
+        <span class="include-icon">📄</span>
+        <h3>Full PDF Workbook</h3>
+        <p>Every framework, cheatsheet, and template in a beautifully formatted PDF you can reference and annotate forever.</p>
+        <div class="include-value">Value: €49</div>
+      </div>
+      <div class="include-card">
+        <span class="include-icon">🗓️</span>
+        <h3>90-Day Action Roadmap</h3>
+        <p>Month-by-month. Week-by-week. Specific and measurable. Designed to get you from zero to your first AI income stream.</p>
+        <div class="include-value">Value: €49</div>
+      </div>
+      <div class="include-card">
+        <span class="include-icon">🔄</span>
+        <h3>Lifetime Updates</h3>
+        <p>AI moves fast. Every time the course updates with new tools and strategies — you get it free. No extra charge, ever.</p>
+        <div class="include-value">Priceless</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── PROOF ─────────────────── -->
+<section id="proof">
+  <div class="container">
+    <div class="proof-layout">
+      <div class="proof-stats reveal">
+        <div class="proof-stat">
+          <div class="proof-stat-num">$2T</div>
+          <div class="proof-stat-label">Global AI Spending 2026</div>
+          <div class="proof-stat-source">Gartner via Vention</div>
+        </div>
+        <div class="proof-stat">
+          <div class="proof-stat-num">109%</div>
+          <div class="proof-stat-label">YoY growth in AI freelance demand</div>
+          <div class="proof-stat-source">Upwork 2026</div>
+        </div>
+        <div class="proof-stat">
+          <div class="proof-stat-num">40%</div>
+          <div class="proof-stat-label">Enterprise apps with AI agents by end 2026</div>
+          <div class="proof-stat-source">Gartner</div>
+        </div>
+        <div class="proof-stat">
+          <div class="proof-stat-num">+30%</div>
+          <div class="proof-stat-label">Higher rates for AI-augmented freelancers</div>
+          <div class="proof-stat-source">Fiverr 2024 data</div>
+        </div>
+      </div>
+
+      <div class="proof-copy reveal reveal-delay-2">
+        <div class="eyebrow">Why 2026 Is the Moment</div>
+        <h2>The window is open.<br><em>It won't be forever.</em></h2>
+        <p>
+          The gap between companies trying to adopt AI and humans who can actually help them — that's your market. 96% of enterprises are expanding AI use. Only 20% say it's actually growing their revenue. The people who know how to bridge that gap are being paid very well right now.
+        </p>
+        <div class="proof-items">
+          <div class="proof-item">
+            <div class="proof-item-icon">→</div>
+            <p>AI-related gigs on Upwork grew 109% in a single year — demand is real and accelerating.</p>
+          </div>
+          <div class="proof-item">
+            <div class="proof-item-icon">→</div>
+            <p>Beginners following a structured approach earn €1,500–€4,000 in their first 3 months.</p>
+          </div>
+          <div class="proof-item">
+            <div class="proof-item-icon">→</div>
+            <p>Early adopters save 15–20 hours per week — and charge 30–40% more for the same output.</p>
+          </div>
+          <div class="proof-item">
+            <div class="proof-item-icon">→</div>
+            <p>Gartner projects 40% of enterprise applications will include AI agents by end of 2026. Build now.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── TESTIMONIALS ─────────────────── -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testi-header reveal">
+      <div class="eyebrow" style="justify-content:center;">Early Students</div>
+      <h2 class="testi-title">Real people.<br><em>Real results.</em></h2>
+    </div>
+    <div class="testi-grid reveal reveal-delay-1">
+      <div class="testi-card">
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+        <p class="testi-quote">The prompting section alone was worth 10× the price. I started writing better AI prompts immediately and the quality of my work completely changed. My clients noticed before I even told them.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">KM</div>
+          <div>
+            <div class="testi-name">Kristofer M.</div>
+            <div class="testi-detail">Freelance Designer, 22</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+        <p class="testi-quote">I used the 7-day plan from Module 4 and landed my first client on day 9. I had no portfolio and no experience. AI made the difference — and so did the actual structure of the plan.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AL</div>
+          <div>
+            <div class="testi-name">Anni L.</div>
+            <div class="testi-detail">Student Entrepreneur, 19</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+        <p class="testi-quote">Other AI courses teach you what AI is. theWAI teaches you what to do with it. That distinction sounds small until you realise you've been using these tools completely wrong for six months.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TP</div>
+          <div>
+            <div class="testi-name">Taavi P.</div>
+            <div class="testi-detail">Small Business Owner, 24</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FAQ ─────────────────── -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-sticky reveal">
+        <div class="eyebrow">Common Questions</div>
+        <h2>Still on the<br><em>fence?</em></h2>
+        <p>Fair enough. Here are the questions I get asked most — answered directly, without the sales spin.</p>
+      </div>
+
+      <div class="faq-list reveal reveal-delay-2">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Do I need any experience with AI?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">None at all. The course starts from the foundations and builds up systematically. If you've ever used ChatGPT even once, you're ready to start Module 1 today.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Do I need to spend money on AI tools?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">The entire course can be followed using free tools. I also explain exactly when paid tools (like ChatGPT Plus at €20/month) are worth it and when they're not — so you never spend money you don't need to.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Is this for beginners or people who already have a business?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Both. If you're starting from zero, there's a clear path from no skills to your first income stream. If you already have a business, there's a path to automating and scaling it with AI. Module 4 and 5 specifically address both tracks.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How long does it take to complete?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">You can get through all core content over a focused weekend. The 7-day action plan in Module 4 is designed to produce real results within a week of completing it. This is a course you execute — not one you watch for months.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Why should I take this over a bigger, more established course?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Most AI courses are either built for developers or are so basic they're useless. theWAI is built specifically for people who want to use AI to make money and build things — not to become an AI engineer. Everything here is practical, 2026-current, and built from real experience. Not recycled YouTube content.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What if it doesn't work for me?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">7-day full refund, no questions asked. If you go through the material and it's not for you, email me directly and I'll refund every cent. The risk is entirely mine.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Will the content stay up to date?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Yes. AI moves fast — faster than any other technology I've seen. When I update the course with new tools, strategies, and workflows, you get all updates completely free. That's part of the deal, always.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── PRICING ─────────────────── -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-inner">
+      <div class="eyebrow pricing-eyebrow reveal">The Investment</div>
+      <h2 class="pricing-title reveal reveal-delay-1">One price.<br><em>For everything.</em></h2>
+      <p class="pricing-sub reveal reveal-delay-2">No subscription. No upsells. No drip-feeding content to keep you hooked. Just the complete system, one payment, yours forever.</p>
+
+      <div class="price-box reveal reveal-delay-3">
+        <div class="price-box-badge">
+          🔥 Launch Price — Limited Time
+        </div>
+        <div class="price-display">
+          <span class="price-currency">€</span>
+          <span class="price-amount">29</span>
+        </div>
+        <p class="price-was">Regular price: <s>€49</s> &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Instant access</p>
+
+        <ul class="price-features">
+          <li class="price-feature"><span class="price-check">✓</span> 30+ video lessons across 6 complete modules</li>
+          <li class="price-feature"><span class="price-check">✓</span> Interactive visual boards for every lesson</li>
+          <li class="price-feature"><span class="price-check">✓</span> Full PDF workbook &amp; cheatsheets</li>
+          <li class="price-feature"><span class="price-check">✓</span> 50 ready-to-use prompts (copy and paste)</li>
+          <li class="price-feature"><span class="price-check">✓</span> Complete 2026 AI tool directory</li>
+          <li class="price-feature"><span class="price-check">✓</span> 90-day action plan &amp; roadmap</li>
+          <li class="price-feature"><span class="price-check">✓</span> Lifetime access and all future updates free</li>
+        </ul>
+
+        <a href="#" class="btn-primary-large">Get Instant Access — €29</a>
+        <p class="price-guarantee">🔒 &nbsp; 7-day money-back guarantee — no questions asked</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FINAL CTA ─────────────────── -->
+<section id="final">
+  <div class="final-bg"></div>
+  <div class="container" style="position:relative; z-index:2;">
+    <span class="final-label reveal">theWAI — 2026</span>
+    <h2 class="final-title reveal reveal-delay-1">
+      The<br>
+      <em>window</em><br>
+      <span class="outline">is open.</span>
+    </h2>
+    <p class="final-sub reveal reveal-delay-2">
+      The people who learn this now are the ones who'll be untouchable in five years. Don't be the person who waited until it was obvious.
+    </p>
+    <div class="reveal reveal-delay-3">
+      <a href="#pricing" class="btn-primary">Get Instant Access — €29</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FOOTER ─────────────────── -->
+<footer>
+  <div class="footer-logo"><span>the</span>WAI</div>
+  <p class="footer-copy">© 2026 theWAI · Built by Marken, 16, Keila, Estonia · 7-Day Money-Back Guarantee</p>
+  <div class="footer-links">
+    <a href="#modules">Course</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:hello@thewai.co">Contact</a>
+  </div>
+</footer>
+
+<!-- ─────────────────── JS ─────────────────── -->
+<script>
+/* Custom Cursor */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top  = mouseY + 'px';
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top  = ringY + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .faq-q, .module-row').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+});
+
+/* Nav scroll */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* Reveal on scroll */
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => revealObs.observe(el));
+
+/* FAQ Toggle */
+function toggleFAQ(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* Module row hover feedback */
+document.querySelectorAll('.module-row').forEach(row => {
+  row.style.cursor = 'default';
+});
+
+/* Hamburger placeholder */
+document.getElementById('hamburger').addEventListener('click', () => {
+  const links = document.querySelector('.nav-links');
+  if (links) {
+    const isVisible = links.style.display === 'flex';
+    if (isVisible) {
+      links.style.display = 'none';
+    } else {
+      links.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(8,8,8,0.98);
+        backdrop-filter: blur(20px);
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        z-index: 400;
+        font-size: 20px;
+      `;
+    }
+  }
+});
+</script>
+
+</body>
+</html>
